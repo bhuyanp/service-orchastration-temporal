@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: shipping-service
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.UUIDSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      #      enable-auto-commit: true
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.UUIDDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: io.github.bhuyanp.order.event.dto
+
+server:
+  port: 0

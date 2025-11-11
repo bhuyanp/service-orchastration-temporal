@@ -1,0 +1,153 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:7080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/shipping": {
+      "post": {
+        "tags": [
+          "Shipping Service"
+        ],
+        "summary": "Ship order",
+        "description": "Ship the products in the purchase order and return the tracking id.",
+        "operationId": "shipOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShippingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unable to ship order.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShippingResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ShippingItem": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "productId",
+          "quantity"
+        ]
+      },
+      "ShippingRequest": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "shippingItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShippingItem"
+            },
+            "minItems": 1
+          },
+          "customerId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "customerId",
+          "orderId",
+          "shippingItems"
+        ]
+      },
+      "ProblemDetail": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "string",
+            "format": "uri"
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        }
+      },
+      "ShippingResponse": {
+        "type": "object",
+        "properties": {
+          "trackingId": {
+            "type": "string",
+            "format": "uuid",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "trackingId"
+        ]
+      }
+    }
+  }
+}

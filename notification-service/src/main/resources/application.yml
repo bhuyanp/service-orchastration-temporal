@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: Notification Services
+    version: ${version}
+  main:
+    lazy-initialization: true
+
+server:
+  port: 9080

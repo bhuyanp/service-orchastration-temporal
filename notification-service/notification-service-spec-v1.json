@@ -1,0 +1,178 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Notification Services : DEVL",
+    "version": "0.0.1-SNAPSHOT"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9080",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Order Notification",
+      "description": "Order management related notification APIs"
+    }
+  ],
+  "paths": {
+    "/api/notification/order/failure": {
+      "post": {
+        "tags": [
+          "Order Notification"
+        ],
+        "operationId": "sendOrderFailureNotification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderFailureNotification"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/notification/order/confirmation": {
+      "post": {
+        "tags": [
+          "Order Notification"
+        ],
+        "operationId": "sendOrderConfirmationNotification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderConfirmationNotification"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/notification/order/completion": {
+      "post": {
+        "tags": [
+          "Order Notification"
+        ],
+        "operationId": "sendOrderCompletionNotification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderCompletionNotification"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "OrderFailureNotification": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orderPlaced": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "customerId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "failureReason": {
+            "type": "string",
+            "enum": [
+              "PAYMENT_FAILURE",
+              "INSUFFICIENT_INVENTORY"
+            ]
+          }
+        },
+        "required": [
+          "customerId",
+          "failureReason",
+          "orderId",
+          "orderPlaced"
+        ]
+      },
+      "OrderConfirmationNotification": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orderPlaced": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "customerId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "customerId",
+          "orderId",
+          "orderPlaced"
+        ]
+      },
+      "OrderCompletionNotification": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "shippingTrackingNumber": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orderPlaced": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "orderCompleted": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "customerId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "customerId",
+          "orderCompleted",
+          "orderId",
+          "orderPlaced",
+          "shippingTrackingNumber"
+        ]
+      }
+    }
+  }
+}
