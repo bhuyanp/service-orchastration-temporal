@@ -10,8 +10,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Prasanta Bhuyan
@@ -40,12 +43,20 @@ public class OrderProcessingWorkflowManager {
     @KafkaListener(topics = Topics.TOPIC_ORDER_SHIPPING_COMPLETED, groupId = "order-fulfillment-listener")
     public void updateShippingDetails(ShippingCompletionEvent shippingCompletionEvent) {
         try {
-            String workflowId = ORDER_WORKFLOW_ID_PREFIX + shippingCompletionEvent.orderId();
+            String workflowId = getWorkflowId(shippingCompletionEvent.orderId());
             log.info("Shipping completion message received: {}", shippingCompletionEvent);
             OrderFulfillmentWorkflow workflow = client.newWorkflowStub(OrderFulfillmentWorkflow.class, workflowId);
             workflow.processShippingCompletionEvent(shippingCompletionEvent);
         } catch (Exception e) {
             log.error("Error processing message from topic {}.", Topics.TOPIC_ORDER_SHIPPING_COMPLETED, e);
         }
+    }
+
+    public List<String> getWorkflowStatus(UUID orderId) {
+        return client.streamHistory(getWorkflowId(orderId)).map(historyEvent -> historyEvent.getActivityTaskScheduledEventAttributes().getActivityType().getName()).filter(StringUtils::hasText).toList();
+    }
+
+    private String getWorkflowId(UUID orderId) {
+        return ORDER_WORKFLOW_ID_PREFIX + orderId;
     }
 }

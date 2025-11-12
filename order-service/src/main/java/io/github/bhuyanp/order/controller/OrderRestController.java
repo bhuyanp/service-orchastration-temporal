@@ -10,11 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -25,15 +23,20 @@ import java.util.UUID;
 @RequestMapping("/api/order")
 @RequiredArgsConstructor
 public class OrderRestController {
-    private final OrderProcessingWorkflowManager workflowStarter;
+    private final OrderProcessingWorkflowManager workflowManager;
     private final OrderService orderService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> processOrder(@Valid @RequestBody OrderRequest orderRequest) {
-        Order order = workflowStarter.start(orderRequest);
+        Order order = workflowManager.start(orderRequest);
         MDC.put("orderId", order.orderId().toString());
         log.info("New order created: {}", order);
         return ResponseEntity.ok("Order received. Order id is " + order.orderId());
+    }
+
+    @GetMapping(path = "/{orderId}/status", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<String>> getWorkflowStatus(@PathVariable UUID orderId) {
+        return ResponseEntity.ok(workflowManager.getWorkflowStatus(orderId));
     }
 
 }
