@@ -2,17 +2,26 @@ spring:
   application:
     name: shipping-service
   kafka:
+    bootstrap-servers: localhost:9092
     producer:
-      bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.UUIDSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    listener:
+      ack-mode: manual
+      type: BATCH
     consumer:
       #      enable-auto-commit: true
-      bootstrap-servers: localhost:9092
+      #      auto-commit-interval: 2000
+      #      auto-offset-reset: latest
+      ## Give consumers enough breathing room to process batches
+      #      max-poll-interval: 60000
+      ## Find the sweet spot between throughput and processing time
+      #      max-poll-records: 4
       key-deserializer: org.apache.kafka.common.serialization.UUIDDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: io.github.bhuyanp.order.event.dto
 
 server:
+  shutdown: GRACEFUL
   port: 0

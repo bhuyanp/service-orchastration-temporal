@@ -29,10 +29,10 @@ public class OrderNotificationController {
     @PostMapping(path = "/confirmation", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> sendOrderConfirmationNotification(@Valid @RequestBody OrderConfirmationNotification orderConfirmationNotification) throws InterruptedException {
         // Random failures
-//        int random = new Random().nextInt(2);
-//        if (random==0) {
-//            throw new RuntimeException("Failed to send confirmation notification");
-//        }
+        int random = new Random().nextInt(10);
+        if (random == 0) {
+            throw new RuntimeException("Failed to send confirmation notification");
+        }
         // Artificial Delay
         int delay = new Random().nextInt(20);
         Thread.sleep(Duration.ofSeconds(delay));
@@ -44,12 +44,12 @@ public class OrderNotificationController {
     @PostMapping(path = "/completion", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> sendOrderCompletionNotification(@Valid @RequestBody OrderCompletionNotification orderCompletionNotification) throws InterruptedException {
         // Random failures
-//        int random = new Random().nextInt(2);
-//        if (random == 0) {
-//            throw new RuntimeException("Failed to send order completion notification");
-//        }
+        int random = new Random().nextInt(5);
+        if (random == 0) {
+            throw new RuntimeException("Failed to send confirmation notification");
+        }
         // Artificial Delay
-        int delay = new Random().nextInt(20);
+        int delay = new Random().nextInt(2, 16);
         Thread.sleep(Duration.ofSeconds(delay));
         log.info("Order completion email sent for :{}", orderCompletionNotification);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -58,12 +58,12 @@ public class OrderNotificationController {
     @PostMapping(path = "/failure", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> sendOrderFailureNotification(@Valid @RequestBody OrderFailureNotification orderFailureNotification) throws InterruptedException {
         // Random failures
-//        int random = new Random().nextInt(2);
-//        if (random == 0) {
-//            throw new RuntimeException("Failed to send failure notification");
-//        }
+        int random = new Random().nextInt(5);
+        if (random == 0) {
+            throw new RuntimeException("Failed to send confirmation notification");
+        }
         // Artificial Delay
-        int delay = new Random().nextInt(4);
+        int delay = new Random().nextInt(2, 16);
         Thread.sleep(Duration.ofSeconds(delay));
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

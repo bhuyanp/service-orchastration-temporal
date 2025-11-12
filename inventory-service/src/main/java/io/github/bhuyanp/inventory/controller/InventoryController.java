@@ -35,12 +35,12 @@ public class InventoryController {
     @ApiResponse(responseCode = "500", description = "Unable to block the inventory.", content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
     ResponseEntity<InventoryResponse> blockInventory(@RequestBody @Valid InventoryRequest inventoryRequest) throws InterruptedException {
         // Random failures
-        int random = new Random().nextInt(4);
+        int random = new Random().nextInt(5);
         if (random == 0) {
-            throw new RuntimeException("Failed to block inventory for order " + inventoryRequest.orderId());
+            throw new RuntimeException("Failed to hold the inventory");
         }
         // Artificial Delay
-        int delay = new Random().nextInt(20);
+        int delay = new Random().nextInt(2, 16);
         Thread.sleep(Duration.ofSeconds(delay));
         log.info("Blocked inventory for order {}", inventoryRequest.orderId());
         return ResponseEntity.status(HttpStatus.CREATED).body(new InventoryResponse(UUID.randomUUID()));
@@ -53,12 +53,12 @@ public class InventoryController {
     @ApiResponse(responseCode = "500", description = "Unable to release the inventory.", content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
     ResponseEntity<Void> releaseInventory(@PathVariable String orderId) throws InterruptedException {
         // Random failures
-//        int random = new Random().nextInt(2);
-//        if(random==0){
-//            throw new RuntimeException("Failed to release inventory for "+inventoryRefId);
-//        }
+        int random = new Random().nextInt(5);
+        if (random == 0) {
+            throw new RuntimeException("Failed to release inventory hold");
+        }
         // Artificial Delay
-        int delay = new Random().nextInt(20);
+        int delay = new Random().nextInt(2, 16);
         Thread.sleep(Duration.ofSeconds(delay));
 
         log.info("Released inventory for order{}", orderId);

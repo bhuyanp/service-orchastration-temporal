@@ -1,15 +1,8 @@
 package io.github.bhuyanp.order.activity;
 
-import io.github.bhuyanp.inventory.client.model.InventoryRequest;
 import io.github.bhuyanp.inventory.client.model.InventoryResponse;
-import io.github.bhuyanp.notification.client.model.OrderCompletionNotification;
-import io.github.bhuyanp.notification.client.model.OrderConfirmationNotification;
-import io.github.bhuyanp.notification.client.model.OrderFailureNotification;
 import io.github.bhuyanp.order.dto.Order;
-import io.github.bhuyanp.order.event.dto.ShippingEvent;
-import io.github.bhuyanp.payment.client.model.PaymentRequest;
 import io.github.bhuyanp.payment.client.model.ProcessPaymentResponse;
-import io.github.bhuyanp.shipping.client.model.ShippingRequest;
 import io.github.bhuyanp.shipping.client.model.ShippingResponse;
 import io.temporal.activity.ActivityInterface;
 
@@ -34,5 +27,5 @@ public interface OrderFulfillmentActivity {
 
     void sendOrderCompletionNotification(Order order, UUID trackingId);
 
-    void sendOrderFailureNotification(OrderFailureNotification orderFailureNotification);
+    void sendOrderFailureNotification(Order order);
 }

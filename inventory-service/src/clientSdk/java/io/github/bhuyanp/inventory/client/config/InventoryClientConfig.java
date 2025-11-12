@@ -1,23 +1,16 @@
 package io.github.bhuyanp.inventory.client.config;
 
 import io.github.bhuyanp.inventory.client.api.InventoryServiceApi;
-import io.github.bhuyanp.inventory.client.exception.InventoryServiceException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ProblemDetail;
-import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
-import reactor.core.publisher.Mono;
-
-import java.util.function.Function;
+import reactor.netty.http.client.HttpClient;
 
 @Configuration
 @AutoConfiguration
@@ -31,6 +24,7 @@ public class InventoryClientConfig {
     public InventoryServiceApi inventoryServiceApi(WebClient.Builder builder) {
         WebClient webClient = builder
                 .baseUrl(apiEndpoint)
+                .clientConnector(new ReactorClientHttpConnector(HttpClient.newConnection().compress(true)))
                 .build();
         HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory
                 .builderFor(WebClientAdapter.create(webClient))

@@ -1,28 +1,21 @@
 package io.github.bhuyanp.order.workflow;
 
 import io.github.bhuyanp.inventory.client.model.InventoryResponse;
-import io.github.bhuyanp.notification.client.model.OrderCompletionNotification;
-import io.github.bhuyanp.notification.client.model.OrderConfirmationNotification;
 import io.github.bhuyanp.order.activity.OrderFulfillmentActivity;
 import io.github.bhuyanp.order.dto.Order;
 import io.github.bhuyanp.order.event.STATUS;
 import io.github.bhuyanp.order.event.dto.ShippingCompletionEvent;
-import io.github.bhuyanp.payment.client.model.PaymentRequest;
 import io.github.bhuyanp.payment.client.model.ProcessPaymentResponse;
 import io.temporal.activity.ActivityOptions;
 import io.temporal.common.RetryOptions;
 import io.temporal.failure.ActivityFailure;
-import io.temporal.failure.ApplicationFailure;
 import io.temporal.spring.boot.WorkflowImpl;
 import io.temporal.workflow.Saga;
 import io.temporal.workflow.Workflow;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 
-import static io.github.bhuyanp.order.util.Mappers.*;
 import static io.github.bhuyanp.order.workflow.OrderProcessingWorkflowManager.ORDER_FULFILLMENT_TASK_QUEUE;
 
 /**
@@ -58,6 +51,17 @@ public class OrderFulfillmentWorkflowImpl implements OrderFulfillmentWorkflow {
                 log.error("SendOrderConfirmationNotification failed.", e);
             }
 
+            saga.addCompensation(() -> {
+                try {
+                    orderFulfillmentActivity.sendOrderFailureNotification(order);
+                    log.info("✔︎ Order failure email sent.");
+                } catch (ActivityFailure e) {
+                    // ignore. Notification is not critical business function
+                    log.error("SendOrderFailureNotification failed.", e);
+                }
+            });
+
+
             // Payment flow
             saga.addCompensation(() -> orderFulfillmentActivity.refundPayment(order));
             final ProcessPaymentResponse processPaymentResponse = orderFulfillmentActivity.processPayment(order);
@@ -91,21 +95,17 @@ public class OrderFulfillmentWorkflowImpl implements OrderFulfillmentWorkflow {
                 // ignore. Notification is not critical business function
                 log.error("SendOrderCompletionNotification failed.", e);
             }
-            log.info("✔︎ Order processing completed for: {}", order);
-        } catch (ActivityFailure e) {
-            log.error("🚫 Activity failure while processing the order.", e);
-            saga.compensate();
-            throw e;
+
+            log.info("✅ Order processing completed for: {}", order);
         } catch (Exception e) {
             log.error("🚫 Failed to process the order.", e);
             saga.compensate();
-            throw ApplicationFailure.newNonRetryableFailure(e.getMessage(), e.getClass().getName(), e.getCause());
+            throw Workflow.wrap(e);
         }
     }
 
     @Override
     public void processShippingCompletionEvent(ShippingCompletionEvent shippingCompletionEvent) {
-        log.info("Shipping completion event received: {}", shippingCompletionEvent);
         this.shippingCompletionEvent = shippingCompletionEvent;
     }
 }

@@ -2,15 +2,17 @@ spring:
   application:
     name: order-service
   kafka:
+    bootstrap-servers: localhost:9092
+
     producer:
-      bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.UUIDSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        enable.idempotency: true
 
     consumer:
-      enable-auto-commit: true
-      auto-commit-interval: 10
-      bootstrap-servers: localhost:9092
+      #      enable-auto-commit: true
+      #      auto-commit-interval: 10
       key-deserializer: org.apache.kafka.common.serialization.UUIDDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
@@ -36,6 +38,6 @@ api:
 
 server:
   shutdown: GRACEFUL
-  port: 8080
+  port: 0
 
 #debug: true

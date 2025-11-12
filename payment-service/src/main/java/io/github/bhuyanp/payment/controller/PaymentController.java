@@ -36,12 +36,12 @@ public class PaymentController {
     @ApiResponse(responseCode = "500", description = "Unable to process payment.", content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
     ResponseEntity<ProcessPaymentResponse> processPayment(@RequestBody @Valid PaymentRequest paymentRequest) throws InterruptedException {
         // Random failures
-        int random = new Random().nextInt(4);
+        int random = new Random().nextInt(5);
         if (random == 0) {
-            throw new RuntimeException("Failed to process payment for order " + paymentRequest.orderId());
+            throw new RuntimeException("Failed to process payment");
         }
         // Artificial Delay
-        int delay = new Random().nextInt(1, 12);
+        int delay = new Random().nextInt(2, 16);
         Thread.sleep(Duration.ofSeconds(delay));
         log.info("Processed payment for order {}", paymentRequest.orderId());
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProcessPaymentResponse(UUID.randomUUID()));
@@ -54,12 +54,12 @@ public class PaymentController {
     @ApiResponse(responseCode = "500", description = "Unable to refund the payment.", content = @Content(schema = @Schema(implementation = ProblemDetail.class)))
     ResponseEntity<Void> refundPayment(@RequestBody @Valid PaymentRequest paymentRequest) throws InterruptedException {
         // Random failures
-//        int random = new Random().nextInt(2);
-//        if(random==0){
-//            throw new RuntimeException("Failed to release inventory for "+inventoryRefId);
-//        }
+        int random = new Random().nextInt(5);
+        if (random == 0) {
+            throw new RuntimeException("Failed to refund payment");
+        }
         // Artificial Delay
-        int delay = new Random().nextInt(20);
+        int delay = new Random().nextInt(2, 16);
         Thread.sleep(Duration.ofSeconds(delay));
 
         log.info("Refunded payment for order {}", paymentRequest.orderId());

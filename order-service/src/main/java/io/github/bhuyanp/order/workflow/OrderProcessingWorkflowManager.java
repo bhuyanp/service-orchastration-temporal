@@ -4,7 +4,8 @@ import io.github.bhuyanp.order.dto.Order;
 import io.github.bhuyanp.order.dto.OrderRequest;
 import io.github.bhuyanp.order.event.Topics;
 import io.github.bhuyanp.order.event.dto.ShippingCompletionEvent;
-import io.temporal.client.*;
+import io.temporal.client.WorkflowClient;
+import io.temporal.client.WorkflowOptions;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -36,11 +37,11 @@ public class OrderProcessingWorkflowManager {
         return workflow.startOrder(orderRequest);
     }
 
-    @KafkaListener(topics = Topics.TOPIC_ORDER_SHIPPING_COMPLETED, groupId = "shipping-event-processing-grp")
+    @KafkaListener(topics = Topics.TOPIC_ORDER_SHIPPING_COMPLETED, groupId = "order-fulfillment-listener")
     public void updateShippingDetails(ShippingCompletionEvent shippingCompletionEvent) {
         try {
             String workflowId = ORDER_WORKFLOW_ID_PREFIX + shippingCompletionEvent.orderId();
-            log.info("Updating workflow: {}", workflowId);
+            log.info("Shipping completion message received: {}", shippingCompletionEvent);
             OrderFulfillmentWorkflow workflow = client.newWorkflowStub(OrderFulfillmentWorkflow.class, workflowId);
             workflow.processShippingCompletionEvent(shippingCompletionEvent);
         } catch (Exception e) {

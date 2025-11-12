@@ -8,68 +8,63 @@ package io.github.bhuyanp.notification.client.api;
 import io.github.bhuyanp.notification.client.model.OrderCompletionNotification;
 import io.github.bhuyanp.notification.client.model.OrderConfirmationNotification;
 import io.github.bhuyanp.notification.client.model.OrderFailureNotification;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.service.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import jakarta.annotation.Generated;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.service.annotation.HttpExchange;
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-11-07T06:29:40.230014-05:00[America/New_York]", comments = "Generator version: 7.16.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-11-11T19:36:08.257033-05:00[America/New_York]", comments = "Generator version: 7.16.0")
 public interface OrderNotificationApi {
 
     /**
      * POST /api/notification/order/completion
      *
-     * @param orderCompletionNotification  (required)
+     * @param orderCompletionNotification (required)
      * @return OK (status code 200)
      */
     @HttpExchange(
-        method = "POST",
-        value = "/api/notification/order/completion",
-        accept = { "application/json" },
-        contentType = "application/json"
+            method = "POST",
+            value = "/api/notification/order/completion",
+            accept = {"application/json"},
+            contentType = "application/json"
     )
     ResponseEntity<Void> sendOrderCompletionNotification(
-         @RequestBody OrderCompletionNotification orderCompletionNotification
+            @RequestBody OrderCompletionNotification orderCompletionNotification
     );
 
 
     /**
      * POST /api/notification/order/confirmation
      *
-     * @param orderConfirmationNotification  (required)
+     * @param orderConfirmationNotification (required)
      * @return OK (status code 200)
      */
     @HttpExchange(
-        method = "POST",
-        value = "/api/notification/order/confirmation",
-        accept = { "application/json" },
-        contentType = "application/json"
+            method = "POST",
+            value = "/api/notification/order/confirmation",
+            accept = {"application/json"},
+            contentType = "application/json"
     )
     ResponseEntity<Void> sendOrderConfirmationNotification(
-         @RequestBody OrderConfirmationNotification orderConfirmationNotification
+            @RequestBody OrderConfirmationNotification orderConfirmationNotification
     );
 
 
     /**
      * POST /api/notification/order/failure
      *
-     * @param orderFailureNotification  (required)
+     * @param orderFailureNotification (required)
      * @return OK (status code 200)
      */
     @HttpExchange(
-        method = "POST",
-        value = "/api/notification/order/failure",
-        accept = { "application/json" },
-        contentType = "application/json"
+            method = "POST",
+            value = "/api/notification/order/failure",
+            accept = {"application/json"},
+            contentType = "application/json"
     )
     ResponseEntity<Void> sendOrderFailureNotification(
-         @RequestBody OrderFailureNotification orderFailureNotification
+            @RequestBody OrderFailureNotification orderFailureNotification
     );
 
 }

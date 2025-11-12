@@ -4,6 +4,7 @@ import io.github.bhuyanp.inventory.client.model.BlockItem;
 import io.github.bhuyanp.inventory.client.model.InventoryRequest;
 import io.github.bhuyanp.notification.client.model.OrderCompletionNotification;
 import io.github.bhuyanp.notification.client.model.OrderConfirmationNotification;
+import io.github.bhuyanp.notification.client.model.OrderFailureNotification;
 import io.github.bhuyanp.order.dto.Order;
 import io.github.bhuyanp.order.dto.OrderRequest;
 import io.github.bhuyanp.order.event.dto.ShippingEvent;
@@ -51,5 +52,8 @@ public final class Mappers {
 
     public static final BiFunction<Order, UUID, OrderCompletionNotification> ORDER_TRACKING_TO_COMPLETION_NOTIFICATION
             = (order, trackingId) -> new OrderCompletionNotification(order.orderId(), trackingId, order.orderPlaced(), LocalDateTime.now(), order.customer().id());
+
+    public static final Function<Order, OrderFailureNotification> ORDER_TO_FAILURE_NOTIFICATION
+            = order -> new OrderFailureNotification(order.orderId(), order.orderPlaced(), order.customer().id(), OrderFailureNotification.FailureReasonEnum.PAYMENT_FAILURE);
 
 }

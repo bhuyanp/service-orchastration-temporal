@@ -1,30 +1,25 @@
 package io.github.bhuyanp.order.activity;
 
 import io.github.bhuyanp.inventory.client.api.InventoryServiceApi;
-import io.github.bhuyanp.inventory.client.model.InventoryRequest;
 import io.github.bhuyanp.inventory.client.model.InventoryResponse;
 import io.github.bhuyanp.notification.client.api.OrderNotificationApi;
-import io.github.bhuyanp.notification.client.model.OrderCompletionNotification;
-import io.github.bhuyanp.notification.client.model.OrderConfirmationNotification;
-import io.github.bhuyanp.notification.client.model.OrderFailureNotification;
 import io.github.bhuyanp.order.dto.Order;
 import io.github.bhuyanp.order.event.Topics;
 import io.github.bhuyanp.order.event.dto.ShippingEvent;
-import io.github.bhuyanp.order.service.OrderService;
 import io.github.bhuyanp.payment.client.api.PaymentServiceApi;
-import io.github.bhuyanp.payment.client.model.PaymentRequest;
 import io.github.bhuyanp.payment.client.model.ProcessPaymentResponse;
 import io.github.bhuyanp.shipping.client.api.ShippingServiceApi;
-import io.github.bhuyanp.shipping.client.model.ShippingRequest;
 import io.github.bhuyanp.shipping.client.model.ShippingResponse;
 import io.temporal.spring.boot.ActivityImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
-import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import static io.github.bhuyanp.order.util.Mappers.*;
 
@@ -79,11 +74,15 @@ public class OrderFulfillmentActivityImpl implements OrderFulfillmentActivity {
     }
 
     @Override
-    public void sendShippingMessage(Order order) {
+    public void sendShippingMessage(final Order order) {
         log.info("➡️ SendShippingMessage invoked");
-        int partition = new Random().nextInt(4);
-        log.info("SendShippingMessage sent to topic {} and partition {}", Topics.TOPIC_ORDER_SHIPPING_REQUESTED, partition);
-        shippingRequestKafkaTemplate.send(Topics.TOPIC_ORDER_SHIPPING_REQUESTED, partition, order.orderId(), ORDER_TO_SHIPPING_EVENT.apply(order));
+        CompletableFuture<SendResult<UUID, ShippingEvent>> messagePostFuture = shippingRequestKafkaTemplate.send(Topics.TOPIC_ORDER_SHIPPING_REQUESTED, order.orderId(), ORDER_TO_SHIPPING_EVENT.apply(order));
+        messagePostFuture.whenComplete((result, ex) -> {
+            if (ex == null) {
+                RecordMetadata recordMetadata = result.getRecordMetadata();
+                log.info("Order id {} posted to {}:{}:{}", order.orderId(), recordMetadata.topic(), recordMetadata.partition(), recordMetadata.offset());
+            }
+        });
     }
 
 
@@ -94,8 +93,8 @@ public class OrderFulfillmentActivityImpl implements OrderFulfillmentActivity {
     }
 
     @Override
-    public void sendOrderFailureNotification(OrderFailureNotification orderFailureNotification) {
+    public void sendOrderFailureNotification(Order order) {
         log.info("⬅️ SendOrderFailureNotification invoked");
-        orderNotificationApi.sendOrderFailureNotification(orderFailureNotification);
+        orderNotificationApi.sendOrderFailureNotification(ORDER_TO_FAILURE_NOTIFICATION.apply(order));
     }
 }
