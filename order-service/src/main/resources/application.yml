@@ -1,43 +1,16 @@
 spring:
   application:
     name: order-service
-  kafka:
-    bootstrap-servers: localhost:9092
-
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.UUIDSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      properties:
-        enable.idempotency: true
-
-    consumer:
-      #      enable-auto-commit: true
-      #      auto-commit-interval: 10
-      key-deserializer: org.apache.kafka.common.serialization.UUIDDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: io.github.bhuyanp.order.event.dto
-
-spring.temporal:
-  namespace: default
-  connection:
-    target: 127.0.0.1:7233
-  workers-auto-discovery:
-    packages:
-      - io.github.bhuyanp.order
-
-api:
-  notification:
-    endpoint: http://localhost:9080
-  inventory:
-    endpoint: http://localhost:5080
-  payment:
-    endpoint: http://localhost:6080
-  shipping:
-    endpoint: http://localhost:7080
+  main:
+    lazy-initialization: true
 
 server:
-  shutdown: GRACEFUL
-  port: 0
+  port: 4080
 
-#debug: true
+
+## Make sure actuator endpoints are secured
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

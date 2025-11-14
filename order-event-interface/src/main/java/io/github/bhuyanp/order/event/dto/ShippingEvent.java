@@ -19,7 +19,7 @@ public record ShippingEvent(
             String productId,
             @Positive
             @NotNull
-            int quantity
+            Integer quantity
     ) {
     }
 }

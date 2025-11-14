@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Topics {
-
     public static final String TOPIC_ORDER_SHIPPING_REQUESTED = "order.shipping.requested";
     public static final String TOPIC_ORDER_SHIPPING_COMPLETED = "order.shipping.completed";
-
 }

@@ -26,7 +26,6 @@ dependencies {
     compileOnly("jakarta.validation:jakarta.validation-api:3.1.1")
     compileOnly("org.projectlombok:lombok:1.18.42")
     annotationProcessor("org.projectlombok:lombok:1.18.42")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<Test> {

@@ -46,7 +46,7 @@ public class OrderNotificationController {
         // Random failures
         int random = new Random().nextInt(5);
         if (random == 0) {
-            throw new RuntimeException("Failed to send confirmation notification");
+            throw new RuntimeException("Failed to send order completion notification");
         }
         // Artificial Delay
         int delay = new Random().nextInt(2, 16);
@@ -60,11 +60,12 @@ public class OrderNotificationController {
         // Random failures
         int random = new Random().nextInt(5);
         if (random == 0) {
-            throw new RuntimeException("Failed to send confirmation notification");
+            throw new RuntimeException("Failed to send order failure notification");
         }
         // Artificial Delay
         int delay = new Random().nextInt(2, 16);
         Thread.sleep(Duration.ofSeconds(delay));
+        log.info("Order failure email sent for :{}", orderFailureNotification);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
