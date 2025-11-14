@@ -1,6 +1,7 @@
 spring:
   application:
-    name: order-service
+    name: Order Service
+    version: ${version}
   main:
     lazy-initialization: true
 

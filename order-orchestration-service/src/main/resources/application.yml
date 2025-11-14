@@ -1,6 +1,7 @@
 spring:
   application:
-    name: order-service
+    name: Order Management Service
+    version: ${version}
   kafka:
     bootstrap-servers: localhost:9092
 

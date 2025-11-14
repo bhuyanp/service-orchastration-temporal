@@ -1,6 +1,10 @@
 spring:
   application:
-    name: inventory-service
+    name: Inventory Service
+    version: ${version}
+    description: |
+      Inventory service is responsible for blocking inventory for shipping.
+      If order processing fails for any reason then this service can be used to release those blocked inventory.
   main:
     lazy-initialization: true
 
