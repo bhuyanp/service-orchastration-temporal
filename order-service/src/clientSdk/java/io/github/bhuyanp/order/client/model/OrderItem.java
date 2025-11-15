@@ -17,12 +17,12 @@ import jakarta.annotation.Generated;
  * OrderItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-11-13T18:42:15.029064-05:00[America/New_York]", comments = "Generator version: 7.16.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-11-14T07:54:12.454468-05:00[America/New_York]", comments = "Generator version: 7.16.0")
 public class OrderItem {
 
   private Product product;
 
-  private @Nullable Integer quantity;
+  private Integer quantity;
 
   public OrderItem() {
     super();
@@ -31,8 +31,9 @@ public class OrderItem {
   /**
    * Constructor with only required parameters
    */
-  public OrderItem(Product product) {
+  public OrderItem(Product product, Integer quantity) {
     this.product = product;
+    this.quantity = quantity;
   }
 
   public OrderItem product(Product product) {
@@ -54,7 +55,7 @@ public class OrderItem {
     this.product = product;
   }
 
-  public OrderItem quantity(@Nullable Integer quantity) {
+  public OrderItem quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
   }
@@ -63,13 +64,13 @@ public class OrderItem {
    * Get quantity
    * @return quantity
    */
-  
+  @NotNull
   @JsonProperty("quantity")
-  public @Nullable Integer getQuantity() {
+  public Integer getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(@Nullable Integer quantity) {
+  public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 

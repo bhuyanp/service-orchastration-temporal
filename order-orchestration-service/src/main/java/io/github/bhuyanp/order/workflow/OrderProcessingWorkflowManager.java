@@ -1,6 +1,6 @@
 package io.github.bhuyanp.order.workflow;
 
-import io.github.bhuyanp.order.client.model.CreateOrderRequest;
+import io.github.bhuyanp.order.dto.CreateOrderRequest;
 import io.github.bhuyanp.order.client.model.Order;
 import io.github.bhuyanp.order.event.Topics;
 import io.github.bhuyanp.order.event.dto.ShippingCompletionEvent;
@@ -29,7 +29,7 @@ public class OrderProcessingWorkflowManager {
     private final WorkflowClient client;
 
     public Order start(final CreateOrderRequest orderRequest) {
-        String workflowId = ORDER_WORKFLOW_ID_PREFIX + orderRequest.getCustomer().getId() + "_" + LocalDateTime.now();
+        String workflowId = ORDER_WORKFLOW_ID_PREFIX + orderRequest.customer().id() + "_" + LocalDateTime.now();
         OrderInitiationWorkflow workflow = client.newWorkflowStub(
                 OrderInitiationWorkflow.class,
                 WorkflowOptions.newBuilder()

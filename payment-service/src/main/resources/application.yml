@@ -1,6 +1,13 @@
 spring:
+  profiles:
+    default: local
   application:
-    name: payment-service
+    name: Payment Service
+    version: ${version}
+    description: |
+      Payment service is responsible for processing order payment and refund.
+  main:
+    lazy-initialization: true
 
 server:
   port: 6080

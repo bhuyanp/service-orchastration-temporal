@@ -48,7 +48,30 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly("io.temporal:temporal-testing:1.24.1")
 }
+dependencies {
+    implementation("io.github.bhuyanp.order:service-common:0.0.1-SNAPSHOT")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("io.temporal:temporal-spring-boot-starter:1.31.0")
+    implementation("org.springframework.kafka:spring-kafka")
 
+    implementation("io.github.bhuyanp.notification:notification-service-clientsdk:0.0.1-SNAPSHOT")
+    implementation("io.github.bhuyanp.order:order-service-clientsdk:0.0.1-SNAPSHOT")
+    implementation("io.github.bhuyanp.inventory:inventory-service-clientsdk:0.0.1-SNAPSHOT")
+    implementation("io.github.bhuyanp.payment:payment-service-clientsdk:0.0.1-SNAPSHOT")
+    implementation("io.github.bhuyanp.shipping:shipping-service-clientsdk:0.0.1-SNAPSHOT")
+    implementation("io.github.bhuyanp.order:order-event-interface:+")
+
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+tasks.processResources {
+    filesMatching("application.yml") {
+        expand(properties)
+    }
+}
 tasks.withType<Test> {
     useJUnitPlatform()
 }

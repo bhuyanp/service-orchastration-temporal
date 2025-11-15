@@ -5,7 +5,8 @@ import io.github.bhuyanp.inventory.client.model.InventoryRequest;
 import io.github.bhuyanp.notification.client.model.OrderCompletionNotification;
 import io.github.bhuyanp.notification.client.model.OrderConfirmationNotification;
 import io.github.bhuyanp.notification.client.model.OrderFailureNotification;
-import io.github.bhuyanp.order.client.model.Order;
+import io.github.bhuyanp.order.client.model.*;
+import io.github.bhuyanp.order.dto.CreateOrderRequest;
 import io.github.bhuyanp.order.event.dto.ShippingEvent;
 import io.github.bhuyanp.payment.client.model.PaymentRequest;
 import lombok.AccessLevel;
@@ -45,5 +46,27 @@ public final class Mappers {
 
     public static final Function<Order, OrderFailureNotification> ORDER_TO_FAILURE_NOTIFICATION
             = order -> new OrderFailureNotification(order.getOrderId(), order.getOrderPlaced(), order.getCustomer().getId(), OrderFailureNotification.FailureReasonEnum.PAYMENT_FAILURE);
+
+    public static final Function<CreateOrderRequest, io.github.bhuyanp.order.client.model.CreateOrderRequest> CREATE_ORDER_REQ_DTO_TO_MODEL
+            = createOrderRequest -> new io.github.bhuyanp.order.client.model.CreateOrderRequest()
+            .customer(new Customer()
+                    .id(createOrderRequest.customer().id())
+                    .name(createOrderRequest.customer().name())
+                    .email(createOrderRequest.customer().email())
+            )
+            .payment(new Payment()
+                    .nameOnTheCard(createOrderRequest.payment().nameOnTheCard())
+                    .creditCardNumber(createOrderRequest.payment().creditCardNumber())
+                    .expiryMonth(createOrderRequest.payment().expiryMonth())
+                    .expiryYear(createOrderRequest.payment().expiryYear())
+                    .ccv(createOrderRequest.payment().ccv())
+            )
+            .orderItems(createOrderRequest.orderItems().stream()
+                    .map(orderItem -> new OrderItem()
+                            .quantity(orderItem.quantity())
+                            .product(new Product(orderItem.product().id()))
+                    )
+                    .toList()
+            );
 
 }

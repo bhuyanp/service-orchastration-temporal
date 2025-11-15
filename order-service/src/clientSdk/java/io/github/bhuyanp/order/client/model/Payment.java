@@ -16,12 +16,12 @@ import jakarta.annotation.Generated;
  * Payment
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-11-13T18:42:15.029064-05:00[America/New_York]", comments = "Generator version: 7.16.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-11-14T07:54:12.454468-05:00[America/New_York]", comments = "Generator version: 7.16.0")
 public class Payment {
 
   private String nameOnTheCard;
 
-  private @Nullable Integer creditCardNumber;
+  private @Nullable String creditCardNumber;
 
   private @Nullable Integer expiryMonth;
 
@@ -59,7 +59,7 @@ public class Payment {
     this.nameOnTheCard = nameOnTheCard;
   }
 
-  public Payment creditCardNumber(@Nullable Integer creditCardNumber) {
+  public Payment creditCardNumber(@Nullable String creditCardNumber) {
     this.creditCardNumber = creditCardNumber;
     return this;
   }
@@ -70,11 +70,11 @@ public class Payment {
    */
   
   @JsonProperty("creditCardNumber")
-  public @Nullable Integer getCreditCardNumber() {
+  public @Nullable String getCreditCardNumber() {
     return creditCardNumber;
   }
 
-  public void setCreditCardNumber(@Nullable Integer creditCardNumber) {
+  public void setCreditCardNumber(@Nullable String creditCardNumber) {
     this.creditCardNumber = creditCardNumber;
   }
 

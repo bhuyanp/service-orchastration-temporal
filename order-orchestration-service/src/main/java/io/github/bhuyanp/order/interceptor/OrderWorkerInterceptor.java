@@ -62,7 +62,8 @@ public class OrderWorkerInterceptor extends WorkerInterceptorBase {
         }
 
         public WorkflowOutput execute(WorkflowInput input) {
-            Arrays.stream(input.getArguments()).filter(it -> it instanceof Order).findFirst()
+            Arrays.stream(input.getArguments())
+                    .filter(it -> it instanceof Order).findFirst()
                     .ifPresent(order -> MDC.put("orderId", ((Order) order).getOrderId().toString()));
             try {
                 return super.execute(input);

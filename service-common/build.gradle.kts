@@ -37,7 +37,10 @@ repositories {
 }
 
 dependencies {
-    api("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-web") {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
+    }
+    implementation("org.springframework.boot:spring-boot-starter-undertow")
     api("org.springframework.boot:spring-boot-starter-validation")
     api("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.14")
     api("org.apache.commons:commons-lang3:3.18.0")

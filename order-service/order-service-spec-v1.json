@@ -1,13 +1,23 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "OpenAPI definition",
-    "version": "v0"
+    "title": "Order Service [LOCAL]",
+    "description": "",
+    "license": {
+      "name": "Prasanta Bhuyan Corp",
+      "identifier": "License identifier"
+    },
+    "version": "0.0.1-SNAPSHOT"
   },
   "servers": [
     {
       "url": "http://localhost:4080",
       "description": "Generated server url"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
     }
   ],
   "paths": {
@@ -254,7 +264,8 @@
           }
         },
         "required": [
-          "product"
+          "product",
+          "quantity"
         ]
       },
       "Payment": {
@@ -266,7 +277,7 @@
             "minLength": 1
           },
           "creditCardNumber": {
-            "type": "integer",
+            "type": "string",
             "example": 1234234534564567
           },
           "expiryMonth": {
@@ -356,6 +367,13 @@
           "orderItems",
           "payment"
         ]
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
       }
     }
   }

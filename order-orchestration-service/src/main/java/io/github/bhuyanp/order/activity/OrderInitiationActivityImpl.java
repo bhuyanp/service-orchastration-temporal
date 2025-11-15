@@ -1,12 +1,14 @@
 package io.github.bhuyanp.order.activity;
 
 import io.github.bhuyanp.order.client.api.OrderServiceApi;
-import io.github.bhuyanp.order.client.model.CreateOrderRequest;
+import io.github.bhuyanp.order.dto.CreateOrderRequest;
 import io.github.bhuyanp.order.client.model.Order;
 import io.temporal.spring.boot.ActivityImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import static io.github.bhuyanp.order.util.Mappers.CREATE_ORDER_REQ_DTO_TO_MODEL;
 
 /**
  * @author <a href="mailto:prasanta.k.bhuyan@gmail.com">Prasanta Bhuyan</a>
@@ -21,7 +23,7 @@ public class OrderInitiationActivityImpl implements OrderInitiationActivity {
 
     @Override
     public Order createOrder(CreateOrderRequest createOrderRequest) {
-        return orderServiceApi.createOrder(createOrderRequest).getBody();
+        return orderServiceApi.createOrder(CREATE_ORDER_REQ_DTO_TO_MODEL.apply(createOrderRequest)).getBody();
     }
 
 

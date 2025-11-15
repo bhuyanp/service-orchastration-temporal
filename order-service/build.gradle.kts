@@ -34,17 +34,12 @@ springBoot {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("io.github.bhuyanp.order:service-common:0.0.1-SNAPSHOT")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")
-    implementation("org.apache.commons:commons-lang3:3.18.0")
     compileOnly("org.projectlombok:lombok")
-    runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 tasks.processResources {
@@ -93,6 +88,7 @@ tasks.openApiGenerate {
     doFirst {
         delete(clientSourceFolder)
         delete("$clientTargetFolder/java/io/github/bhuyanp/order/client/model")
+        delete("$clientTargetFolder/java/io/github/bhuyanp/order/dto")
         delete("$clientTargetFolder/java/io/github/bhuyanp/order/client/api")
     }
 }
@@ -100,8 +96,12 @@ val copyClientSdk = tasks.register<Copy>("copyClientSdk") {
     from("$clientSourceFolder/src/main")
     into(clientTargetFolder)
 }
+val copyOrderDTO = tasks.register<Copy>("copyOrderDTO") {
+    from("$projectDir/src/main/java/io/github/bhuyanp/order/dto")
+    into("$clientTargetFolder/java/io/github/bhuyanp/order/dto")
+}
 val compileClientSdkJavaTask = tasks.named<JavaCompile>("compileClientSdkJava") {
-    dependsOn(copyClientSdk)
+    dependsOn(copyClientSdk, copyOrderDTO)
 }
 val clientSdkArtifact = tasks.register<Jar>("clientSdkJar") {
     from(compileClientSdkJavaTask)
@@ -111,6 +111,7 @@ val clientSdkArtifact = tasks.register<Jar>("clientSdkJar") {
 val clientSDKArtifactId = project.name + "-clientsdk"
 val clientSdkSourceArtifact = tasks.register<Jar>("clientSdkSourceJar") {
     dependsOn(copyClientSdk)
+    dependsOn(copyOrderDTO)
     from("$clientTargetFolder/java")
     archiveBaseName = clientSDKArtifactId
     archiveClassifier = "sources"

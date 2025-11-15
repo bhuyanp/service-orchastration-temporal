@@ -1,4 +1,4 @@
-package io.github.bhuyanp.inventory.exception;
+package io.github.bhuyanp.order.exception;
 
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -17,9 +17,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ProblemDetail> handleException(Exception ex) {
         logger.error("Exception occurred.", ex);
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-//        if (ex instanceof DownstreamException downstreamException) {
-//            httpStatus = downstreamException.getHttpStatus();
-//        }
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(httpStatus, ex.getMessage());
         problemDetail.setProperty("exception", ex.getClass().getSimpleName());

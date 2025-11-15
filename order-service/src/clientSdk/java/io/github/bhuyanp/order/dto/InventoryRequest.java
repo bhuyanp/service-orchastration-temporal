@@ -1,6 +1,5 @@
-package io.github.bhuyanp.inventory.dto;
+package io.github.bhuyanp.order.dto;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -13,7 +12,7 @@ public record InventoryRequest(
         @NotNull
         UUID orderId,
         @NotEmpty
-        List<@Valid BlockItem> blockItems
+        List<BlockItem> blockItems
 ) {
 
     record BlockItem(

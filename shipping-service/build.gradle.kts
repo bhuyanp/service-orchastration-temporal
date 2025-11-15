@@ -31,12 +31,11 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")
     implementation("org.apache.commons:commons-lang3:3.18.0")
     implementation("org.springframework.kafka:spring-kafka")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.20.1")
     implementation("io.github.bhuyanp.order:order-event-interface:+")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")

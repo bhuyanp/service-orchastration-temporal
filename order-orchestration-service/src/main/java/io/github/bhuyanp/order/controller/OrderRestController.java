@@ -1,6 +1,6 @@
 package io.github.bhuyanp.order.controller;
 
-import io.github.bhuyanp.order.client.model.CreateOrderRequest;
+import io.github.bhuyanp.order.dto.CreateOrderRequest;
 import io.github.bhuyanp.order.client.model.Order;
 import io.github.bhuyanp.order.workflow.OrderProcessingWorkflowManager;
 import jakarta.validation.Valid;
