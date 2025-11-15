@@ -1,18 +1,18 @@
 spring:
   profiles:
     default: local
+  main:
+    lazy-initialization: true
   application:
     name: Order Management Service
     version: ${version}
   kafka:
     bootstrap-servers: localhost:9092
-
     producer:
       key-serializer: org.apache.kafka.common.serialization.UUIDSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         enable.idempotency: true
-
     consumer:
       #      enable-auto-commit: true
       #      auto-commit-interval: 10
