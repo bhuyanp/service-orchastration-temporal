@@ -22,15 +22,14 @@ import java.util.List;
 @SecurityScheme(type = SecuritySchemeType.HTTP, scheme = "Bearer", bearerFormat = "JWT", name = "bearerAuth")
 public class OpenApiConfig {
 
+    private final EnvironmentalUtil environmentalUtil;
+
     @Value("${spring.application.name}")
     private String appName;
     @Value("${spring.application.version}")
     private String appVersion;
     @Value("${spring.application.description:}")
     private String appDescription;
-
-
-    private final EnvironmentalUtil environmentalUtil;
 
     @Bean
     public OpenAPI openApi() {

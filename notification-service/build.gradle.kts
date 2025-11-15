@@ -30,9 +30,12 @@ repositories {
     mavenLocal()
 }
 
+val clientSDK: Configuration by configurations.creating {
+    extendsFrom(configurations.implementation.get())
+}
 dependencies {
     implementation("io.github.bhuyanp.order:service-common:0.0.1-SNAPSHOT")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    clientSDK("org.springframework.boot:spring-boot-starter-webflux")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -52,8 +55,8 @@ sourceSets {
     create("clientSdk") {
         java {
             srcDir("$clientTargetFolder/java")
-            compileClasspath += sourceSets["main"].compileClasspath
-            runtimeClasspath += sourceSets["main"].runtimeClasspath
+            compileClasspath += clientSDK
+            runtimeClasspath += clientSDK
         }
     }
 }

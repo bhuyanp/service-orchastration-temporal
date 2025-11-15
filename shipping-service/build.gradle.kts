@@ -29,8 +29,12 @@ repositories {
     mavenCentral()
     mavenLocal()
 }
+val clientSDK: Configuration by configurations.creating {
+    extendsFrom(configurations.implementation.get())
+}
 
 dependencies {
+    clientSDK("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.apache.commons:commons-lang3:3.18.0")
@@ -51,8 +55,8 @@ sourceSets {
     create("clientSdk") {
         java {
             srcDir("$clientTargetFolder/java")
-            compileClasspath += sourceSets["main"].compileClasspath
-            runtimeClasspath += sourceSets["main"].runtimeClasspath
+            compileClasspath += clientSDK
+            runtimeClasspath += clientSDK
         }
     }
 }
