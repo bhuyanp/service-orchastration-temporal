@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <springProperty name="springApplicationName" source="spring.application.name"/>
+
+    <property name="LOG_FILE" value="/tmp/test.log"/>
+
+    <springProfile name="local">
+        <property name="CONSOLE_LOG_PATTERN"
+                  value="%d{HH:mm:ss.SSS} %highlight(%5level) [%15.15t] %X{orderId} %cyan(%50.50(%logger{38})) : %msg%n"/>
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>DEBUG</level>
+            </filter>
+            <encoder>
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+                <charset>UTF-8</charset>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="!local">
+        <appender name="FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <timeStampPattern>yyyy-MM-dd HH:mm:ss.SSS</timeStampPattern>
+                <timeZone>America/New_York</timeZone>
+            </encoder>
+            <file>${LOG_FILE}</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_FILE}.%d</fileNamePattern>
+            </rollingPolicy>
+        </appender>
+        <appender name="JSON_CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <timeStampPattern>yyyy-MM-dd HH:mm:ss.SSS</timeStampPattern>
+                <timeZone>America/New_York</timeZone>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="JSON_CONSOLE_APPENDER"/>
+            <appender-ref ref="FILE_APPENDER"/>
+        </root>
+    </springProfile>
+</configuration>

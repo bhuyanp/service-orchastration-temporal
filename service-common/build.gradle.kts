@@ -44,6 +44,7 @@ dependencies {
     api("org.springframework.boot:spring-boot-starter-validation")
     api("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.14")
     api("org.apache.commons:commons-lang3:3.18.0")
+    implementation("net.logstash.logback:logstash-logback-encoder:8.0")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
