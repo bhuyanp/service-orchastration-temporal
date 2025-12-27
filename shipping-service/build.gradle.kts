@@ -40,7 +40,7 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.18.0")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.20.1")
-    implementation("io.github.bhuyanp.order:order-event-interface:+")
+    implementation("io.github.bhuyanp.order:order-event-interface:0.0.1-SNAPSHOT")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

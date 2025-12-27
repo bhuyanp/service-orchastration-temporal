@@ -1,7 +1,4 @@
-version: '3.7'
-
 services:
-  
   postgres:
     image: postgres:13
     environment:
@@ -9,7 +6,7 @@ services:
       - POSTGRES_PASSWORD=temporal
     ports:
       - "5432:5432"
-      
+
   temporal:
     image: temporalio/auto-setup:1.21.5
     ports:

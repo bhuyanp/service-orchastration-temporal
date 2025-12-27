@@ -33,8 +33,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("io.temporal:temporal-spring-boot-starter:1.31.0")
-    
-    implementation("io.github.bhuyanp.order:order-event-interface:+")
+
+    implementation("io.github.bhuyanp.order:order-event-interface:0.0.1-SNAPSHOT")
     implementation("io.github.bhuyanp.notification:notification-service-clientsdk:0.0.1-SNAPSHOT")
     implementation("io.github.bhuyanp.order:order-service-clientsdk:0.0.1-SNAPSHOT")
     implementation("io.github.bhuyanp.inventory:inventory-service-clientsdk:0.0.1-SNAPSHOT")
