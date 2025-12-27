@@ -1,65 +1,65 @@
-echo "## Building and publishing service common..."
+echo "## Building and publishing Service Common..."
 cd service-common || exit
-./gradlew clean publishToMavenLocal
+./gradlew clean publishToMavenLocal || exit
 
 printf '\n'
-echo "## Building and order event interface..."
+echo "## Building and Order Event Interface..."
 cd ../order-event-interface || exit
-./gradlew clean publishToMavenLocal
+./gradlew clean publishToMavenLocal || exit
 
 printf '\n'
-echo "## Building client sdk for inventory service..."
+echo "## Building client sdk for Inventory Service..."
 cd ../inventory-service || exit
 ./gradlew clean openApiGenerate
 
 
 printf '\n'
-echo "## Publishing client sdk for inventory service..."
-./gradlew publishToMavenLocal
+echo "## Publishing client sdk for Inventory Service..."
+./gradlew publishToMavenLocal || exit
 
 
 printf '\n'
-echo "## Building client sdk for notification service..."
+echo "## Building client sdk for Notification Service..."
 cd ../notification-service || exit
 ./gradlew clean openApiGenerate
 
 
 printf '\n'
-echo "## Publishing client sdk for notification service..."
-./gradlew publishToMavenLocal
+echo "## Publishing client sdk for Notification Service..."
+./gradlew publishToMavenLocal || exit
 
 
 printf '\n'
-echo "## Building client sdk for order service..."
+echo "## Building client sdk for Order Service..."
 cd ../order-service || exit
 ./gradlew clean openApiGenerate
 
 
 printf '\n'
-echo "## Publishing client sdk for order service..."
-./gradlew publishToMavenLocal
+echo "## Publishing client sdk for Order Service..."
+./gradlew publishToMavenLocal || exit
 
 
 printf '\n'
-echo "## Building client sdk for payment service..."
+echo "## Building client sdk for Payment Service..."
 cd ../payment-service || exit
 ./gradlew clean openApiGenerate
 
 
 printf '\n'
-echo "## Publishing client sdk for payment service..."
-./gradlew publishToMavenLocal
+echo "## Publishing client sdk for Payment Service..."
+./gradlew publishToMavenLocal || exit
 
 
 printf '\n'
-echo "## Building client sdk for shipping service..."
+echo "## Building client sdk for Shipping Service..."
 cd ../shipping-service || exit
 ./gradlew clean openApiGenerate
 
 
 printf '\n'
-echo "## Publishing client sdk for shipping service..."
-./gradlew publishToMavenLocal
+echo "## Publishing client sdk for Shipping Service..."
+./gradlew publishToMavenLocal || exit
 
 
 printf '\n'
