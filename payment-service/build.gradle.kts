@@ -79,6 +79,7 @@ openApiGenerate {
             "annotationLibrary" to "none",
             "interfaceOnly" to "true",
             "openApiNullable" to "false",
+            "hideGenerationTimestamp" to "true"
         )
     )
 }

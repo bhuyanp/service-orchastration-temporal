@@ -83,6 +83,7 @@ openApiGenerate {
             "annotationLibrary" to "swagger2",
             "interfaceOnly" to "true",
             "openApiNullable" to "false",
+            "hideGenerationTimestamp" to "true"
         )
     )
 }

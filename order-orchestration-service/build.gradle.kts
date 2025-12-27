@@ -35,7 +35,7 @@ dependencies {
     implementation("io.temporal:temporal-spring-boot-starter:1.31.0")
 
     implementation("io.github.bhuyanp.order:order-event-interface:0.0.1-SNAPSHOT")
-    implementation("io.github.bhuyanp.notification:notification-service-clientsdk:0.0.1-SNAPSHOT")
+    implementation("io.github.bhuyanp.notification:notification-service-clientsdk:+")
     implementation("io.github.bhuyanp.order:order-service-clientsdk:0.0.1-SNAPSHOT")
     implementation("io.github.bhuyanp.inventory:inventory-service-clientsdk:0.0.1-SNAPSHOT")
     implementation("io.github.bhuyanp.payment:payment-service-clientsdk:0.0.1-SNAPSHOT")

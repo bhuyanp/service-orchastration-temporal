@@ -16,7 +16,7 @@ import jakarta.annotation.Generated;
  * ShippingItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-12-27T08:37:01.744136-05:00[America/New_York]", comments = "Generator version: 7.16.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0")
 public class ShippingItem {
 
   private String productId;
